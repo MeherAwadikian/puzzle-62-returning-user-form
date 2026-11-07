@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forge Studio — Returning-User Profile Form</title>
+  <meta name="description" content="A multi-section profile form that recognises returning users, greets them by name, pre-fills their saved details, and lets them manage or forget their stored profile." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230b1020'/%3E%3Ctext x='8' y='12' font-size='11' text-anchor='middle' fill='%237c8cff'%3E%E2%97%86%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark">◆</span>
+        <span class="brand-name">Forge Studio</span>
+      </div>
+      <p class="tagline">Project onboarding</p>
+    </header>
+
+    <!-- Welcome-back banner: hidden on a first visit, shown when a saved profile is recognised. -->
+    <section id="welcomeBanner" class="welcome-banner" hidden aria-live="polite">
+      <div class="welcome-text">
+        <h2 id="welcomeHeading">Welcome back</h2>
+        <p class="welcome-meta">
+          Last here <strong id="lastVisitText">—</strong>.
+          This is visit <strong id="visitCountText">—</strong>.
+        </p>
+      </div>
+      <div class="welcome-actions">
+        <button type="button" id="continueBtn" class="btn btn-primary">Continue where you left off</button>
+        <button type="button" id="startFreshBtn" class="btn btn-ghost">Start fresh</button>
+        <button type="button" id="forgetBtn" class="btn btn-danger">Not you? Clear my info</button>
+      </div>
+    </section>
+
+    <!-- A notice surfaced when stored data was corrupt or migrated from an older schema. -->
+    <p id="recoveryNotice" class="recovery-notice" hidden aria-live="polite"></p>
+
+    <main class="card">
+      <div class="steps" role="tablist" aria-label="Form sections">
+        <button type="button" class="step is-active" data-step="1" role="tab" aria-selected="true">
+          <span class="step-num">1</span> About you
+        </button>
+        <button type="button" class="step" data-step="2" role="tab" aria-selected="false">
+          <span class="step-num">2</span> Preferences
+        </button>
+      </div>
+
+      <form id="profileForm" novalidate>
+        <!-- Section 1 -->
+        <fieldset class="section is-active" data-section="1">
+          <legend class="section-title">About you</legend>
+
+          <label class="field">
+            <span class="field-label">Full name</span>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Ada Lovelace" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Work email</span>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="ada@company.com" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Company</span>
+            <input type="text" id="company" name="company" autocomplete="organization" placeholder="Analytical Engines Ltd." />
+          </label>
+
+          <div class="section-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" data-goto="2">Next: Preferences →</button>
+          </div>
+        </fieldset>
+
+        <!-- Section 2 -->
+        <fieldset class="section" data-section="2">
+          <legend class="section-title">Preferences</legend>
+
+          <label class="field">
+            <span class="field-label">Your role</span>
+            <select id="role" name="role">
+              <option value="">Select a role…</option>
+              <option value="founder">Founder / Owner</option>
+              <option value="engineer">Engineer</option>
+              <option value="designer">Designer</option>
+              <option value="marketer">Marketer</option>
+              <option value="operations">Operations</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+
+          <fieldset class="field checkbox-group">
+            <legend class="field-label">What are you here for?</legend>
+            <label class="checkbox"><input type="checkbox" name="interests" value="automation" /> Automation</label>
+            <label class="checkbox"><input type="checkbox" name="interests" value="websites" /> Websites</label>
+            <label class="checkbox"><input type="checkbox" name="interests" value="ai-agents" /> AI agents</label>
+            <label class="checkbox"><input type="checkbox" name="interests" value="analytics" /> Analytics</label>
+          </fieldset>
+
+          <label class="field toggle-field">
+            <span class="field-label">Email me product updates</span>
+            <input type="checkbox" id="newsletter" name="newsletter" class="toggle" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Preferred contact time</span>
+            <select id="contactTime" name="contactTime">
+              <option value="">No preference</option>
+              <option value="morning">Mornings</option>
+              <option value="afternoon">Afternoons</option>
+              <option value="evening">Evenings</option>
+            </select>
+          </label>
+
+          <div class="section-nav">
+            <button type="button" class="btn btn-ghost" data-goto="1">← Back</button>
+            <button type="submit" class="btn btn-primary">Save my profile</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </main>
+
+    <!-- Always-visible privacy control: a hard wipe of the stored key. -->
+    <footer class="footer">
+      <button type="button" id="clearDataBtn" class="link-danger">Clear my saved data</button>
+      <span class="footer-sep">·</span>
+      <span class="storage-indicator" id="storageIndicator">No profile stored on this device</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
